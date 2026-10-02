@@ -1,0 +1,40 @@
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v4
+      - run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '8.9'
+      - name: Build installable APK
+        run: gradle -p android --no-daemon assembleDebug
+      - name: Prepare download
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk timetable-android-debug.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: timetable-android-debug
+          path: timetable-android-debug.apk
+          if-no-files-found: error
+      - name: Publish tagged release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v3
+        with:
+          files: timetable-android-debug.apk
+          generate_release_notes: true

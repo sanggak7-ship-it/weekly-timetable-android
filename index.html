@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#101114" />
+  <meta name="description" content="30분 단위 주간 시간표" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>시간표</title>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar"><div><p class="eyebrow">MY WEEKLY PLAN</p><h1>시간표</h1></div><button id="todayButton" class="subtle">오늘</button></header>
+    <main>
+      <div class="week-heading"><div><span class="eyebrow">WEEKLY SCHEDULE</span><h2 id="weekLabel"></h2></div><div class="week-nav"><button id="prevWeek" aria-label="지난주">‹</button><button id="nextWeek" aria-label="다음주">›</button></div></div>
+      <div class="tabs" id="tabs" role="tablist"><button class="active" data-view="week" role="tab" aria-selected="true">Week</button><button data-view="1" role="tab">월</button><button data-view="2" role="tab">화</button><button data-view="3" role="tab">수</button><button data-view="4" role="tab">목</button><button data-view="5" role="tab">금</button><button data-view="6" role="tab">토</button><button data-view="0" role="tab">일</button></div>
+      <div class="hint">빈 칸을 눌러 일정을 추가하세요 · 30분 단위</div>
+      <div class="grid-scroll"><div id="schedule" class="schedule" aria-label="주간 시간표"></div></div>
+    </main>
+    <nav class="bottom-nav"><button class="selected" id="scheduleNav"><span>▦</span>시간표</button><button id="widgetNav"><span>◫</span>위젯 보기</button><button id="settingsNav"><span>⚙</span>설정</button></nav>
+  </div>
+
+  <dialog id="editor" class="editor"><form method="dialog" id="eventForm"><div class="modal-head"><div><p class="eyebrow">SCHEDULE</p><h2 id="modalTitle">일정 추가</h2></div><button type="button" id="closeEditor" class="icon-button" aria-label="닫기">×</button></div>
+    <label>요일<select id="dayInput" required></select></label>
+    <div class="time-fields"><label>시작<select id="startInput" required></select></label><label>종료<select id="endInput" required></select></label></div>
+    <div class="title-field"><label for="titleInput">계획</label><input id="titleInput" type="text" maxlength="40" required placeholder="예: 수학 공부" autocomplete="off" aria-autocomplete="list" aria-controls="titleSuggestions" aria-expanded="false" /><div id="titleSuggestions" class="suggestions" role="listbox" hidden></div></div>
+    <label>메모<textarea id="memoInput" rows="3" maxlength="500" placeholder="메모를 남겨주세요"></textarea></label>
+    <label class="toggle-row">시작 전 알림 <input id="reminderInput" type="checkbox" /></label>
+    <label id="reminderLeadRow">알림 시점<select id="reminderLeadInput"><option value="5">5분 전</option><option value="10" selected>10분 전</option><option value="30">30분 전</option><option value="60">1시간 전</option></select></label>
+    <fieldset><legend>색상</legend><div id="colors" class="colors"></div></fieldset>
+    <p id="formError" class="error" role="alert"></p>
+    <div class="actions"><button type="submit" class="primary">저장</button><button type="button" id="deleteEvent" class="danger" hidden>삭제</button><button type="button" id="copyEvent" class="subtle" hidden>복사</button></div>
+  </form></dialog>
+
+  <dialog id="infoDialog" class="info"><div class="modal-head"><h2 id="infoTitle"></h2><button id="closeInfo" class="icon-button" aria-label="닫기">×</button></div><div id="infoContent"></div></dialog>
+  <script src="app.js"></script>
+</body>
+</html>

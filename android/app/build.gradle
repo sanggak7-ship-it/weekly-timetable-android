@@ -1,0 +1,29 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.example.timetable'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.example.timetable'
+        minSdk 26
+        targetSdk 34
+        versionCode 2
+        versionName '1.1'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    sourceSets { main { assets.srcDir(layout.buildDirectory.dir('generated/webassets')) } }
+    packaging { resources { excludes += ['META-INF/*'] } }
+}
+
+tasks.register('copyWebAssets', Copy) {
+    from('../..') {
+        include 'index.html', 'app.js', 'styles.css', 'manifest.webmanifest', 'icon.svg', 'sw.js'
+        include 'fonts/**'
+    }
+    into layout.buildDirectory.dir('generated/webassets')
+}
+tasks.named('preBuild').configure { dependsOn 'copyWebAssets' }

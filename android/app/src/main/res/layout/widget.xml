@@ -1,0 +1,9 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ImageView android:id="@+id/widget_header" android:layout_width="match_parent" android:layout_height="64dp"
+        android:contentDescription="월요일부터 일요일까지 주간 시간표" android:scaleType="fitXY" />
+    <ListView android:id="@+id/widget_grid" android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:dividerHeight="0dp" android:scrollbars="vertical"
+        android:cacheColorHint="@android:color/transparent" />
+</LinearLayout>
